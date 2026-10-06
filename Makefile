@@ -14,13 +14,13 @@ ifneq ($(UNAME_S),Linux)
 DOCKER_IMAGE := secure-clang
 GIT_BASH := C:/Program Files/Git/bin/bash.exe
 
-.PHONY: all test clean docker-build
+.PHONY: all app test run clean docker-build
 
 # make test や make clean を叩くと、自動で Docker 内の make に転送される
-all test clean:
+all app test run clean:
 	@'$(GIT_BASH)' -c 'MSYS_NO_PATHCONV=1 docker run --rm -v "$$(pwd):/workspace" -w /workspace $(DOCKER_IMAGE) make $@'
 
-# ついでにイメージ作成も make コマンドでできるようにしておく
+# Docker イメージ作成用
 docker-build:
 	docker build -t $(DOCKER_IMAGE) .
 
@@ -28,7 +28,7 @@ else
 
 # =============================================================
 # 【Linux (Dockerコンテナ内 / GitHub Actions) 用の設定】
-# 通常のコンパイルとネイティブ実行
+# コンテナの中や GitHub Actions では、こちらがネイティブ実行される
 # =============================================================
 CXX        := g++
 CXXFLAGS   := -std=c++17 -Wall -Wextra -O2
@@ -41,20 +41,33 @@ PKG_LIBS   := $(shell pkg-config --libs $(PKGS))
 #LDFLAGS    := $(PKG_LIBS) -lmycustom
 LDFLAGS    := $(PKG_LIBS)
 
-SRCS       := src/image_tool.cpp tests/test_main.cpp
-TARGET     := run_tests
+# 共通ロジックとテストファイルの自動検出
+COMMON_SRCS := src/image_tool.cpp
+TEST_SRCS   := $(wildcard tests/*.cpp)
 
-.PHONY: all test clean
+APP_TARGET  := app
+TEST_TARGET := run_tests
 
-all: $(TARGET)
+.PHONY: all test run clean
 
-$(TARGET): $(SRCS)
+all: $(APP_TARGET) $(TEST_TARGET)
+
+# 本番アプリのビルド
+$(APP_TARGET): src/main.cpp $(COMMON_SRCS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(PKG_CFLAGS) $^ $(LDFLAGS) -o $@
 
-test: $(TARGET)
-	./$(TARGET)
+# テスト用バイナリのビルド
+$(TEST_TARGET): $(TEST_SRCS) $(COMMON_SRCS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(PKG_CFLAGS) $^ $(LDFLAGS) -o $@
+
+run: $(APP_TARGET)
+	./$(APP_TARGET)
+
+# ★ テストだけを実行（本番の main.cpp はコンパイルされません）
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(APP_TARGET) $(TEST_TARGET)
 
 endif
