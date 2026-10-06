@@ -23,6 +23,7 @@ jobs:
       # 2. 自作 .deb パッケージのインストール
       - name: Install Custom DEB Package
         run: |
+          sudo apt-get install -y ./packages/fmt9.1.0_ubuntu2004_amd64.deb
           sudo apt-get install -y ./packages/SimpleGtk1.0.10_ubuntu2204_amd64.deb
 
       # 3. テストのビルドと実行（Makefileにお任せ）
