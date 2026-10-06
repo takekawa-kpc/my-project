@@ -1,0 +1,37 @@
+# ビルド生成物
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dylib
+run_tests
+mycustom
+
+# クリーンアップで消されない中間ファイル
+*.gch
+*.pch
+
+# テスト実行のログ・成果物
+test_results.txt
+*.log
+results/
+build/
+
+# OpenCV / GTK 関連の一時・設定ファイル
+*.user
+config.guess
+config.sub
+autom4te.cache/
+
+# パッケージ管理（ローカル用）
+packages/
+
+# OS・エディタ系
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
