@@ -25,7 +25,7 @@ config.sub
 autom4te.cache/
 
 # パッケージ管理（ローカル用）
-packages/
+#packages/
 
 # OS・エディタ系
 .DS_Store

@@ -34,7 +34,8 @@ CXX        := g++
 CXXFLAGS   := -std=c++17 -Wall -Wextra -O2
 INCLUDES   := -Iinclude -Itests
 
-PKGS       := gtk+-3.0 opencv4
+#PKGS       := gtk+-3.0 opencv4
+PKGS       := SimpleGtk
 PKG_CFLAGS := $(shell pkg-config --cflags $(PKGS))
 PKG_LIBS   := $(shell pkg-config --libs $(PKGS))
 #LDFLAGS    := $(PKG_LIBS) -lmycustom
