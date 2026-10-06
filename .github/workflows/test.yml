@@ -20,6 +20,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libopencv-dev
           sudo apt-get install -y libssl-dev libssh-dev
+          sudo apt-get install -y mariadb-client unixodbc unixodbc-dev libssl-dev libmariadb-dev odbc-mariadb
+          sudo apt-get install -y libzxingcore-dev
+          sudo apt-get install -y libgpiod-dev
 
       # 2. 自作 .deb パッケージのインストール
       - name: Install Custom DEB Package
