@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libopencv-dev
+          sudo apt-get install -y libssl-dev libssh-dev
 
       # 2. 自作 .deb パッケージのインストール
       - name: Install Custom DEB Package
