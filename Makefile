@@ -10,8 +10,8 @@ PKGS     := gtk+-3.0 opencv4
 PKG_CFLAGS := $(shell pkg-config --cflags $(PKGS))
 PKG_LIBS   := $(shell pkg-config --libs $(PKGS))
 
-# リンク設定（自作ライブラリ -lmycustom を追加）
-#LDFLAGS  := $(PKG_LIBS) -lmycustom
+# リンク設定（-lmycustom は無効化中。再有効化時は libmycustom.deb のインストールが必要）
+LDFLAGS  := $(PKG_LIBS)
 
 # ソースコードと出力バイナリ
 SRCS     := src/image_tool.cpp tests/test_main.cpp
