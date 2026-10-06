@@ -9,4 +9,7 @@ TEST_CASE("OpenCV 画像生成処理のテスト") {
     CHECK(img.cols == 100);
     CHECK(img.rows == 50);
     CHECK(img.channels() == 3);
+
+    // すべてのピクセル値が0であることを検証（各チャンネルの和が0）
+    CHECK(cv::sum(img) == cv::Scalar::all(0));
 }
